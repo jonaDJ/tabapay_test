@@ -1,9 +1,9 @@
 .ResponsiveWrapper {
-  padding: 15px 15px; /* Default padding */
+  padding: 15px 20px;
 }
 
 @media screen and (min-width: 768px) {
   .ResponsiveWrapper {
-    padding: 30px 20px; /* Larger padding for screens wider than 768px */
+    padding: 20px 30px;
   }
 }
