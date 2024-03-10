@@ -2,10 +2,34 @@ import React, { useEffect, useState } from "react";
 import { NavNode } from "../../interfaces/NavItemInterface";
 import "./Navigation.css";
 import ResponsiveWrapper from "../wrappers/ResponsiveWrapper";
+import Modal from "../common/Modal";
 
 interface HeaderBarProps {
   navData: NavNode[];
 }
+
+interface HamburgerMenuProps {
+  menuButtonHandler: (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => void;
+  isOpen: boolean;
+}
+
+const HamburgerMenu: React.FC<HamburgerMenuProps> = ({
+  menuButtonHandler,
+  isOpen,
+}) => (
+  <div className="nav-bar-container">
+    <button className="burger" onClick={menuButtonHandler}>
+      {[1, 2, 3].map((line) => (
+        <div
+          key={line}
+          className={`line line${line} ${isOpen ? "open" : ""}`}
+        />
+      ))}
+    </button>
+  </div>
+);
 
 const Navigation: React.FC<HeaderBarProps> = ({ navData }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -14,6 +38,19 @@ const Navigation: React.FC<HeaderBarProps> = ({ navData }) => {
     null
   );
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalContent, setModalContent] = useState<string | null>(null);
+
+  const openModal = (content: string) => {
+    setIsModalOpen(true);
+    setModalContent(content);
+    console.log(content, isModalOpen, modalContent);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setModalContent(null);
+  };
 
   const menuButtonHandler = (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
@@ -23,8 +60,6 @@ const Navigation: React.FC<HeaderBarProps> = ({ navData }) => {
     setActiveIndex(null);
     setSecondActiveIndex(null);
   };
-
-  console.log(activeIndex, secondActiveIndex);
 
   useEffect(() => {
     const handleResize = () => {
@@ -59,21 +94,21 @@ const Navigation: React.FC<HeaderBarProps> = ({ navData }) => {
       <ResponsiveWrapper>
         <div className="header-bar-container">
           <div className="logo">PayEasy</div>
-          <div className="nav-bar-container">
-            <button className="burger" onClick={menuButtonHandler}>
-              <div className={`line line1 ${isOpen ? "open" : ""}`} />
-              <div className={`line line2 ${isOpen ? "open" : ""}`} />
-              <div className={`line line3 ${isOpen ? "open" : ""}`} />
-            </button>
-          </div>
-
+          <HamburgerMenu
+            menuButtonHandler={menuButtonHandler}
+            isOpen={isOpen}
+          />
           {(isOpen || !isMobile) && (
             <nav className="nav-list-container">
               <ul className="nav-list">
                 {navData.map((item, index) => (
                   <React.Fragment key={index}>
                     <li
-                      onClick={() => toggleSubMenu(index)}
+                      onClick={() => {
+                        toggleSubMenu(index);
+                        !item.children &&
+                          openModal(`Content for ${item?.title}`);
+                      }}
                       className={`nav-list-sublist ${
                         activeIndex === index ? "active" : ""
                       }`}
@@ -96,9 +131,11 @@ const Navigation: React.FC<HeaderBarProps> = ({ navData }) => {
                             {item.children.map((child, childIndex) => (
                               <li
                                 key={childIndex}
-                                onClick={(e) =>
-                                  toggleSecondSubMenu(childIndex, e)
-                                }
+                                onClick={(e) => {
+                                  toggleSecondSubMenu(childIndex, e);
+                                  !child.children &&
+                                    openModal(`Content for ${child?.title}`);
+                                }}
                                 className={`submenu-list-items ${
                                   secondActiveIndex === childIndex
                                     ? "active"
@@ -115,7 +152,6 @@ const Navigation: React.FC<HeaderBarProps> = ({ navData }) => {
                                   >
                                     {child.title}
                                   </label>
-
                                   {isMobile && child.children && (
                                     <i className="dropdown-arrow"></i>
                                   )}
@@ -126,7 +162,14 @@ const Navigation: React.FC<HeaderBarProps> = ({ navData }) => {
                                     <ul className="third-menu">
                                       {child.children.map(
                                         (fChild, fChildIndex) => (
-                                          <li key={fChildIndex}>
+                                          <li
+                                            key={fChildIndex}
+                                            onClick={(e) => {
+                                              openModal(
+                                                `Content for ${fChild.title}`
+                                              );
+                                            }}
+                                          >
                                             {fChild.title}
                                           </li>
                                         )
@@ -146,6 +189,11 @@ const Navigation: React.FC<HeaderBarProps> = ({ navData }) => {
           )}
         </div>
       </ResponsiveWrapper>
+      {isModalOpen && modalContent && (
+        <Modal title="Modal Title" onClose={closeModal}>
+          {modalContent}
+        </Modal>
+      )}
     </div>
   );
 };
