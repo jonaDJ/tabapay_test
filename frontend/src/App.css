@@ -5,10 +5,36 @@
   flex-grow: 1;
   background-color: #385744;
   color: white;
+  transition: transform 0.3s ease;
 }
 
 ul,
 li {
   padding: 0px;
   margin: 0px;
+}
+/* 
+.menu-open {
+  transform: translateX(250px);
+} */
+
+.content {
+  transition: transform 0.1s ease;
+}
+
+/* .menu-open .content {
+  transform: translateX(250px);
+} */
+.body-content {
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  /* .menu-open {
+    transform: translateY(100%);
+  }
+
+  .menu-open .content {
+    transform: translateY(100%);
+  } */
 }

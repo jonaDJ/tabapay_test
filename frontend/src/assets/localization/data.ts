@@ -14,7 +14,7 @@ const navData: NavNode[] = [
       {
         title: "Features",
         children: [
-          { title: "Authentication & Fraud Mitigation" },
+          { title: "Authentication" },
           { title: "Compliance" },
           { title: "Self-service Portal" },
           { title: "Channel" },
