@@ -6,7 +6,6 @@
   top: 100%;
   width: 100%;
   height: 100%;
-  overflow: hidden;
   background-color: #1a1a1a;
   color: white;
   transition: height 0.3s ease;
@@ -101,7 +100,7 @@
     bottom: 0;
     width: 200px;
     background-color: #1a1a1a;
-    overflow-y: auto;
+    /* overflow-y: auto; */
   }
 
   .nav-list-sublist {
