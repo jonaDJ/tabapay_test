@@ -1,8 +1,12 @@
 {
+  "name": "payeasy",
+  "version": "1.0.0",
+  "description": "PayEasy Project with react, typescript and express",
   "devDependencies": {
     "concurrently": "^8.2.2"
   },
   "scripts": {
-    "start": "concurrently \"cd frontend && npm start\" \"cd backend && npm start\""
+    "start": "concurrently \"cd frontend && npm start\" \"cd backend && npm start\"",
+    "setup": "npm install && cd frontend && npm install && cd ../backend && npm install"
   }
 }
