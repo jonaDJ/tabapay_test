@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import navData from "./assets/localization/data";
 import "./App.css";
 import Navigation from "./components/navigation/Navigation";
+import Footer from "./components/footer/Footer";
+import Header from "./components/header/Header";
 
 const App: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -13,13 +15,19 @@ const App: React.FC = () => {
 
   return (
     <div className="App">
-      <Navigation
-        navData={navData}
+      <Header
+        onItemClick={setClickedItem}
+        isMenuOpen={isMenuOpen}
         setIsMenuOpen={setIsMenuOpen}
-        onItemClick={handleItemClick}
       />
 
-      <div className={`content ${isMenuOpen ? "menu-open" : ""}`}>
+      <main className={`content ${isMenuOpen ? "menu-open" : ""}`}>
+        <Navigation
+          navData={navData}
+          setIsMenuOpen={setIsMenuOpen}
+          isMenuOpen={isMenuOpen}
+          onItemClick={handleItemClick}
+        />
         {clickedItem ? (
           <div className="body-content">
             <h1>{clickedItem}</h1>
@@ -27,9 +35,12 @@ const App: React.FC = () => {
         ) : (
           <div className="body-content">
             <h1>Landing Page</h1>
+            <h1>Landing Page</h1>
+            <h1>Landing Page</h1>
           </div>
         )}
-      </div>
+      </main>
+      <Footer />
     </div>
   );
 };

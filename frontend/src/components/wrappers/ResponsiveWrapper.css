@@ -1,11 +1,11 @@
 .ResponsiveWrapper {
   padding: 15px 20px;
-  font-size: medium;
+  font-size: small;
 }
 
 @media screen and (min-width: 768px) {
   .ResponsiveWrapper {
     padding: 20px 30px;
-    font-size: large;
+    font-size: medium;
   }
 }
