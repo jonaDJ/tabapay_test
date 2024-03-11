@@ -8,15 +8,24 @@
   transition: transform 0.3s ease;
 }
 
+body,
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
 ul,
 li {
-  padding: 0px;
-  margin: 0px;
+  margin: 0;
+  padding: 0;
 }
+
 /* 
 .menu-open {
   transform: translateX(250px);
-} */
+}
 
 .content {
   transition: transform 0.1s ease;
@@ -37,4 +46,25 @@ li {
   .menu-open .content {
     transform: translateY(100%);
   } */
+}
+
+html,
+body,
+#root,
+.App {
+  height: 100%;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+
+  header {
+    flex: 0 1 auto;
+  }
+
+  main {
+    background-color: #385744;
+    display: flex;
+    flex-direction: row;
+    flex: 1 1 auto;
+  }
 }
