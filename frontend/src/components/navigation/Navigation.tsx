@@ -1,11 +1,16 @@
-import React, { useEffect, useState } from "react";
+// I have removed the modal from part 2
+// Since it doesn't look neat
+
+import React, { useState } from "react";
 import { NavNode } from "../../interfaces/NavItemInterface";
 import "./Navigation.css";
 import ResponsiveWrapper from "../wrappers/ResponsiveWrapper";
-import Modal from "../common/Modal";
+// import Modal from "../common/Modal";
 
 interface HeaderBarProps {
   navData: NavNode[];
+  setIsMenuOpen: (isOpen: boolean) => void;
+  onItemClick: (itemName: string) => void;
 }
 
 interface HamburgerMenuProps {
@@ -31,111 +36,130 @@ const HamburgerMenu: React.FC<HamburgerMenuProps> = ({
   </div>
 );
 
-const Navigation: React.FC<HeaderBarProps> = ({ navData }) => {
+const Navigation: React.FC<HeaderBarProps> = ({
+  navData,
+  setIsMenuOpen,
+  onItemClick,
+}) => {
   const [isOpen, setIsOpen] = useState(false);
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const [secondActiveIndex, setSecondActiveIndex] = useState<number | null>(
     null
   );
-  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [modalContent, setModalContent] = useState<string | null>(null);
+  const [thirdActiveIndex, setThirdActiveIndex] = useState<number | null>(null);
+  // const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const openModal = (content: string) => {
-    setIsModalOpen(true);
-    setModalContent(content);
-    console.log(content, isModalOpen, modalContent);
-  };
+  // const [modalContent, setModalContent] = useState<string | null>(null);
 
-  const closeModal = () => {
-    setIsModalOpen(false);
-    setModalContent(null);
-  };
+  // const openModal = (content: string) => {
+  //   setIsModalOpen(true);
+  //   setModalContent(content);
+  // };
+
+  // const closeModal = () => {
+  //   setIsModalOpen(false);
+  //   setModalContent(null);
+  //   setIsOpen(false);
+  // };
 
   const menuButtonHandler = (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     e.preventDefault();
     setIsOpen(!isOpen);
-    setActiveIndex(null);
-    setSecondActiveIndex(null);
+    setIsMenuOpen(!isOpen);
+    // setActiveIndex(null);
+    // setSecondActiveIndex(null);
   };
-
-  useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth <= 768);
-      if (!isMobile) {
-        setIsOpen(false);
-      }
-    };
-
-    window.addEventListener("resize", handleResize);
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, [isMobile]);
-
-  const toggleSubMenu = (index: number) => {
-    setActiveIndex(activeIndex === index ? null : index);
-    setSecondActiveIndex(null);
-  };
-
-  const toggleSecondSubMenu = (
+  const handleItemClick = (
     index: number,
+    list: NavNode,
+    layer: number,
     e: React.MouseEvent<HTMLLIElement, MouseEvent>
   ) => {
     e.preventDefault();
     e.stopPropagation();
-    setSecondActiveIndex(secondActiveIndex === index ? null : index);
+
+    switch (layer) {
+      case 1:
+        setActiveIndex(activeIndex === index ? null : index);
+        setSecondActiveIndex(null);
+        setThirdActiveIndex(null);
+        onItemClick(list?.title);
+        // !list.children && openModal(`Content for ${list?.title}`);
+        !list.children && setIsOpen(false);
+        break;
+      case 2:
+        setSecondActiveIndex(secondActiveIndex === index ? null : index);
+
+        setThirdActiveIndex(null);
+        onItemClick(list?.title);
+        // !list.children && openModal(`Content for ${list?.title}`);
+        !list.children && setIsOpen(false);
+        break;
+      case 3:
+        setThirdActiveIndex(thirdActiveIndex === index ? null : index);
+        onItemClick(list?.title);
+        setIsOpen(false);
+        // openModal(`Content for ${list?.title}`);
+        break;
+    }
   };
 
   return (
     <div className={`header-bar ${isOpen ? "open" : ""}`}>
       <ResponsiveWrapper>
         <div className="header-bar-container">
-          <div className="logo">PayEasy</div>
+          <div
+            className="logo"
+            onClick={(e) => {
+              onItemClick("");
+            }}
+          >
+            PayEasy
+          </div>
           <HamburgerMenu
             menuButtonHandler={menuButtonHandler}
             isOpen={isOpen}
           />
-          {(isOpen || !isMobile) && (
+          {isOpen && (
             <nav className="nav-list-container">
               <ul className="nav-list">
                 {navData.map((item, index) => (
                   <React.Fragment key={index}>
                     <li
-                      onClick={() => {
-                        toggleSubMenu(index);
-                        !item.children &&
-                          openModal(`Content for ${item?.title}`);
-                      }}
+                      onClick={(e) => handleItemClick(index, item, 1, e)}
                       className={`nav-list-sublist ${
                         activeIndex === index ? "active" : ""
                       }`}
                     >
                       <div className="nav-list-subchild">
                         <label>{item.title}</label>
-                        {item.children && <i className="dropdown-arrow"></i>}
+                        {item.children && (
+                          <i
+                            className={`dropdown-arrow ${
+                              activeIndex === index ? "active" : ""
+                            }`}
+                          ></i>
+                        )}
                       </div>
                       {item.children && activeIndex === index && (
                         <div className="submenu-container">
                           <ul className="submenu">
-                            {!isMobile && (
+                            {
                               <li className="submenu-header">
                                 <label className="submenu-title">
                                   {item.title}
                                 </label>
                                 <div className="submenu-desc">desc....</div>
                               </li>
-                            )}
+                            }
                             {item.children.map((child, childIndex) => (
                               <li
                                 key={childIndex}
-                                onClick={(e) => {
-                                  toggleSecondSubMenu(childIndex, e);
-                                  !child.children &&
-                                    openModal(`Content for ${child?.title}`);
-                                }}
+                                onClick={(e) =>
+                                  handleItemClick(childIndex, child, 2, e)
+                                }
                                 className={`submenu-list-items ${
                                   secondActiveIndex === childIndex
                                     ? "active"
@@ -152,21 +176,34 @@ const Navigation: React.FC<HeaderBarProps> = ({ navData }) => {
                                   >
                                     {child.title}
                                   </label>
-                                  {isMobile && child.children && (
-                                    <i className="dropdown-arrow"></i>
+                                  {child.children && (
+                                    <i
+                                      className={`dropdown-arrow ${
+                                        secondActiveIndex === childIndex
+                                          ? "active"
+                                          : ""
+                                      }`}
+                                    ></i>
                                   )}
                                 </div>
                                 {child.children &&
-                                  (!isMobile ||
-                                    secondActiveIndex === childIndex) && (
+                                  secondActiveIndex === childIndex && (
                                     <ul className="third-menu">
                                       {child.children.map(
                                         (fChild, fChildIndex) => (
                                           <li
+                                            className={`third-menu-list ${
+                                              thirdActiveIndex === fChildIndex
+                                                ? "active"
+                                                : ""
+                                            }`}
                                             key={fChildIndex}
                                             onClick={(e) => {
-                                              openModal(
-                                                `Content for ${fChild.title}`
+                                              handleItemClick(
+                                                fChildIndex,
+                                                fChild,
+                                                3,
+                                                e
                                               );
                                             }}
                                           >
@@ -189,11 +226,11 @@ const Navigation: React.FC<HeaderBarProps> = ({ navData }) => {
           )}
         </div>
       </ResponsiveWrapper>
-      {isModalOpen && modalContent && (
+      {/* {isModalOpen && modalContent && (
         <Modal title="Modal Title" onClose={closeModal}>
           {modalContent}
         </Modal>
-      )}
+      )} */}
     </div>
   );
 };

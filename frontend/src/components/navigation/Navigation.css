@@ -1,10 +1,10 @@
 .header-bar {
+  background-color: #1a1a1a;
   position: sticky;
   top: 0;
   z-index: 100;
   width: 100%;
   transition: left 0.3s ease;
-  background-color: #385744;
 }
 
 .header-bar.open {
@@ -15,6 +15,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-direction: row-reverse;
 }
 
 .nav-bar-container {
@@ -68,7 +69,7 @@
   width: 100%;
   height: 100vh;
   overflow: hidden;
-  background-color: black;
+  background-color: #1a1a1a;
   color: white;
   transition: height 0.3s ease;
 }
@@ -119,90 +120,56 @@
 }
 
 .dropdown-arrow {
-  padding: 4.5px;
+  padding: 5px;
   margin-top: 4px;
-  margin-bottom: 4px;
+  margin-bottom: 5px;
   display: inline-block;
   transform: rotate(-220deg) rotate(180deg);
   border: solid #fff;
   border-width: 0 2px 2px 0;
 }
 
-.third-menu-title.active {
+.third-menu {
+  padding: 0.5rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.third-menu-list.active {
   color: yellow;
   font-weight: 700;
 }
 
+.third-menu-title.active {
+  color: yellow;
+  font-weight: 700;
+}
+.submenu-header {
+  display: none;
+}
+
+.dropdown-arrow.active {
+  transform: rotate(-135deg) rotate(180deg);
+}
+
 @media screen and (min-width: 769px) {
-  .nav-bar-container {
+  .submenu-header {
     display: none;
   }
 
-  .nav-list {
-    display: flex;
-    flex-direction: row;
-    border: 0px;
-    background-color: transparent;
-    margin-top: 0;
-    justify-content: space-evenly;
-  }
-
-  .nav-list li {
-    margin-right: 1rem;
-    width: auto;
-  }
-
   .nav-list-container {
-    position: static;
-    background-color: transparent;
-    height: auto;
-    overflow: visible;
-    align-items: flex-end;
-  }
-
-  .third-menu-title {
-    display: flex;
-    justify-content: center;
-    color: yellow;
-    font-weight: 700;
-  }
-
-  .submenu {
-    display: flex;
-    flex-direction: row;
-    z-index: 1;
+    display: block;
     position: absolute;
     left: 0;
-    top: 100%;
-    width: 100%;
-    height: 100vh;
-    overflow: hidden;
-    background-color: black;
-    color: white;
-    transition: height 0.3s ease;
-    padding: 20px 20px;
-  }
-
-  .third-menu {
-    margin-top: 1rem;
-    gap: 10px;
-    display: flex;
-    flex-direction: column;
-    /* margin-left: 2rem; */
-    list-style: none;
-  }
-
-  .nav-list-subchild {
-    width: auto;
-    display: inline-flex;
-    gap: 5px;
+    bottom: 0;
+    width: 200px;
+    background-color: #1a1a1a;
+    overflow-y: auto;
+    z-index: 1;
   }
 
   .nav-list-sublist {
-    border: 0;
-  }
-
-  .dropdown-arrow {
-    transform: rotate(45deg) translateY(-3px);
+    width: 100%;
   }
 }
