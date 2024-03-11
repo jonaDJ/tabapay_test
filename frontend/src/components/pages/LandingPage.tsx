@@ -1,6 +1,13 @@
 import React from "react";
 import "./LandingPage.css";
-import { SampleData } from "../../assets/localization/sampleData";
+
+interface SampleData {
+  title: string;
+  children: {
+    title: string;
+    content: string[];
+  }[];
+}
 
 interface LandingPageProps {
   sampleData: SampleData;
