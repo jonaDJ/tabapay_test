@@ -1,7 +1,6 @@
 import React from "react";
 import ResponsiveWrapper from "../wrappers/ResponsiveWrapper";
 import "./Header.css";
-// import Modal from "../common/Modal";
 
 interface HeaderProps {
   onItemClick: (itemName: string) => void;

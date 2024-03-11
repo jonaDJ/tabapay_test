@@ -35,7 +35,11 @@ li {
   transform: translateX(250px);
 } */
 .body-content {
-  text-align: center;
+  align-items: center;
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  flex-direction: column;
 }
 
 @media (max-width: 768px) {

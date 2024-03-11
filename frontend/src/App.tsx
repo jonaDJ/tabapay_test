@@ -4,6 +4,8 @@ import "./App.css";
 import Navigation from "./components/navigation/Navigation";
 import Footer from "./components/footer/Footer";
 import Header from "./components/header/Header";
+import sampleData from "./assets/localization/sampleData";
+import LandingPage from "./components/pages/LandingPage";
 
 const App: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -34,9 +36,7 @@ const App: React.FC = () => {
           </div>
         ) : (
           <div className="body-content">
-            <h1>Landing Page</h1>
-            <h1>Landing Page</h1>
-            <h1>Landing Page</h1>
+            <LandingPage sampleData={sampleData} />
           </div>
         )}
       </main>

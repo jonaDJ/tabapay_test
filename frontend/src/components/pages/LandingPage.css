@@ -1,0 +1,61 @@
+.LandingPage-list {
+  display: flex;
+  flex-direction: column;
+  list-style: none;
+}
+
+.LandingPage h1 {
+  text-align: center;
+}
+
+.content-section {
+  flex-direction: row;
+  border: 1px solid #ccc;
+  padding: 20px;
+
+  display: block;
+  margin-top: 20px;
+}
+
+.LandingPage-links {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.LandingPage-links a {
+  text-decoration: none;
+  color: #333;
+  font-size: 24px;
+}
+
+.LandingPage-links a:hover {
+  text-decoration: none;
+  color: gray;
+  font-size: 24px;
+}
+
+.LandingPage-content h3 {
+  display: none;
+}
+
+.LandingPage-content-list {
+  list-style: none;
+  margin-top: 10px;
+  font-size: 16px;
+  line-height: 1.6;
+  text-align: left;
+}
+
+@media screen and (min-width: 769px) {
+  .content-section {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+  }
+
+  .LandingPage-content h3 {
+    display: block;
+    margin-top: 0;
+    font-size: 20px;
+  }
+}
