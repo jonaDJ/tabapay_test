@@ -42,20 +42,19 @@ The layout of the website has been designed with a header and footer to improve 
 The strategy for visualizing/organizing the data would change depending on its context. We should also consider the amount of data and how efficiently it should be loaded without blocking user interaction. 
 Progressive rendering or lazy loading should be employed. Depending on whether the API supports it, we sometimes employ a pagination technique to load the data related to the first 'x' categories. 
 
-For now, I have just assumed the data can be rendered as an infinite scroll with categories to the left and content to the right. 
+For now, I have assumed the data can be rendered as an infinite scroll with categories to the left and content to the right. 
 I have implemented this in the home/landing page, i.e., the immediate page you see after loading "localhost:8000"
 
 ![Part 5](https://github.com/jonaDJ/tabapay_test/blob/main/png/part5%20png/localhost_3000_.png)
-### Example Organization:
-- **Category 1**
-  - Lots of Text
-- **Category 2**
-  - Lots of Text
-- **Category 3**
-  - Lots of Text
-- ...
-- **Category n**
-  - Lots of Text
 
 ## Part 6: Full Stack Implementation
-Integrating the front end (UI) with the back end (ExpressJS) is necessary to create a functioning prototype. This involves implementing the functionality described in Parts 1-5 and integrating it with backend services for data management and retrieval.
+I have created a dummy express API that returns static JSON data and integrated it with the client-side app. 
+
+# Future improvements
+1. Add error and Loading components to showcase the API's error and loading states for a better user experience.
+2. a11y
+3. Add animations and improve the color palette for a better experience.
+4. Should test for cross-browser compatibility.
+5. Add unit tests using JEST
+6. Should test for better RWD on different devices. The current implementation is only tested against standard desktops and mobile devices. 
+7. Adding lazy/progressive rendering to load API content. 
