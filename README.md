@@ -1,6 +1,24 @@
 # Tabapay assessment README
 This project demonstrates the implementation of a dynamic tree menu with additional features such as item click tracking, display of clicked item details, and layout enhancements.
 
+## Run the Project
+To run this project locally, follow these steps:
+
+1. Clone the repository:
+   ```
+     git clone <repository-url>
+2. Navigate into the cloned directory:
+   ```
+     cd tabapay_test
+3. Install dependencies for both frontend and backend:
+   ```
+     npm run setup
+4. Start the project:
+   ```
+     npm start
+This will start both frontend and backend servers concurrently. You can now access the project locally.
+
+
 ## Part 1: Dynamic Tree Menu
 This image illustrates the initial view of the dynamic tree menu. The menu displays hierarchical data with expandable and collapsible nodes.
 
